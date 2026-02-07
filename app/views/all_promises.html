@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}คำสัญญาทั้งหมด - Promise Tracker{% endblock %}
+
+{% block content %}
+<div class="header-section">
+    <h1>คำสัญญาทั้งหมด</h1>
+</div>
+
+<div class="promises-grid">
+    {% for promise in promises %}
+    <div class="promise-card status-{{ promise.status.name.lower() }}">
+        <div class="promise-header">
+            <span class="status-badge {{ promise.status.name.lower() }}">{{ promise.status.value }}</span>
+            <span class="date">{{ promise.announced_date.strftime('%d/%m/%Y') }}</span>
+        </div>
+
+        <h3><a href="/promises/{{ promise.id }}">{{ promise.description }}</a></h3>
+
+        <div class="politician-info">
+            <p><strong>{{ promise.politician.name }}</strong></p>
+            <p class="party">{{ promise.politician.party }}</p>
+        </div>
+
+        <div class="campaign-info">
+            <small>หาเสียงปี {{ promise.campaign.year }} ({{ promise.campaign.district }})</small>
+        </div>
+
+        <div class="card-footer">
+            <a href="/promises/{{ promise.id }}" class="btn-detail">ดูรายละเอียด</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}เข้าสู่ระบบ — Promise Tracker{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <h1>เข้าสู่ระบบ</h1>
+
+    {% if error %}
+        <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST" action="/login">
+        <div class="form-group">
+            <label for="username">ชื่อผู้ใช้</label>
+            <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="กรอกชื่อผู้ใช้"
+                required
+                autofocus
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="password">รหัสผ่าน</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="กรอกรหัสผ่าน"
+                required
+            >
+        </div>
+
+        <button type="submit" class="btn btn-primary">เข้าสู่ระบบ</button>
+    </form>
+
+    <div class="login-hint">
+        <p>บัญชีทดสอบ:</p>
+        <table>
+            <tr><td><strong>admin</strong></td><td>admin123</td><td>(ผู้ดูแลระบบ)</td></tr>
+            <tr><td><strong>user1</strong></td><td>user123</td><td>(ผู้ใช้ทั่วไป)</td></tr>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}อัปเดตความคืบหน้า - {{ promise.description }}{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="update-form-container">
+        <div class="breadcrumb">
+            <a href="/promises/{{ promise.id }}">&larr; กลับไปหน้ารายละเอียด</a>
+        </div>
+
+        <h1>อัปเดตความคืบหน้า</h1>
+
+        <div class="promise-summary">
+            <h3>{{ promise.description }}</h3>
+            <p><strong>นักการเมือง:</strong> {{ promise.politician.name }} ({{ promise.politician.party }})</p>
+            <p><strong>สถานะปัจจุบัน:</strong> <span class="status-badge {{ promise.status.name.lower() }}">{{
+                    promise.status.value }}</span></p>
+        </div>
+
+        {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <form action="/promises/{{ promise.id }}/update" method="POST">
+            <div class="form-group">
+                <label for="detail">รายละเอียดความคืบหน้า:</label>
+                <textarea id="detail" name="detail" rows="5" class="form-control"
+                    placeholder="กรอกรายละเอียดความคืบหน้า..." required></textarea>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">บันทึกความคืบหน้า</button>
+                <a href="/promises/{{ promise.id }}" class="btn-cancel">ยกเลิก</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

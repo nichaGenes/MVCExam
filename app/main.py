@@ -1,40 +1,25 @@
+from pathlib import Path
 from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi.staticfiles import StaticFiles
+from starlette.middleware.sessions import SessionMiddleware
+from controllers import auth_controller, promise_controller
+from controllers import update_controller, politician_controller
 
-app = FastAPI(title="Simple FastAPI App", version="1.0.0")
+app = FastAPI(title="ระบบติดตามคำสัญญานักการเมือง")
 
+# Add SessionMiddleware for authentication
+# TODO: Change this secret key to a secure random string in production!
+app.add_middleware(SessionMiddleware, secret_key="1234")
 
-class Item(BaseModel):
-    name: str
-    description: str | None = None
-    price: float
-    is_available: bool = True
+app.mount("/static", StaticFiles(directory=Path(__file__).parent / "static"), name="static")
 
+from fastapi.responses import RedirectResponse
+
+app.include_router(auth_controller.router)
+app.include_router(promise_controller.router)
+app.include_router(update_controller.router)
+app.include_router(politician_controller.router)
 
 @app.get("/")
 async def root():
-    """Root endpoint"""
-    return {"message": "Welcome to FastAPI!"}
-
-
-@app.get("/health")
-async def health_check():
-    """Health check endpoint"""
-    return {"status": "healthy"}
-
-
-@app.get("/items/{item_id}")
-async def read_item(item_id: int, q: str | None = None):
-    """Get item by ID with optional query parameter"""
-    return {"item_id": item_id, "query": q}
-
-
-@app.post("/items/")
-async def create_item(item: Item):
-    """Create a new item"""
-    return {"item": item, "message": "Item created successfully"}
-
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    return RedirectResponse(url="/promises")

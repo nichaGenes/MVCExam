@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ระบบติดตามคำสัญญา{% endblock %}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <a href="/" class="nav-brand">🏛️ Promise Tracker</a>
+        <div class="nav-links">
+            <a href="/promises">คำสัญญาทั้งหมด</a>
+            {% if request.session.get("user_id") %}
+            <span>👤 {{ request.session.get("username") }} ({{ request.session.get("role") }})</span>
+            <a href="/logout">ออกจากระบบ</a>
+            {% else %}
+            <a href="/login">เข้าสู่ระบบ</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+
+</html>

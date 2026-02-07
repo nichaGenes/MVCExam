@@ -1,0 +1,73 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ promise.description }} - Promise Tracker{% endblock %}
+
+{% block content %}
+<div class="promise-detail-container">
+    <div class="breadcrumb">
+        <a href="/promises">&larr; กลับไปหน้ารวมคำสัญญา</a>
+    </div>
+
+    <div class="promise-header-card status-{{ promise.status.name.lower() }}">
+        <div class="status-badge-large {{ promise.status.name.lower() }}">{{ promise.status.value }}</div>
+        <h1>{{ promise.description }}</h1>
+        <p class="announced-date">ประกาศเมื่อ: {{ promise.announced_date.strftime('%d/%m/%Y') }}</p>
+    </div>
+
+    <div class="content-grid">
+        <div class="main-column">
+            <section class="updates-section">
+                <div class="section-header">
+                    <h2>ความคืบหน้า</h2>
+                    {% if request.session.get("role") == "admin" and promise.status.value != "เงียบหาย" %}
+                    <a href="/promises/{{ promise.id }}/update" class="btn-primary">
+                        📝 อัปเดตความคืบหน้า
+                    </a>
+                    {% endif %}
+                </div>
+
+                {% if promise.updates %}
+                <div class="updates-timeline">
+                    {% for update in promise.updates|sort(attribute='update_date', reverse=True) %}
+                    <div class="update-card">
+                        <div class="update-date">{{ update.update_date.strftime('%d/%m/%Y') }}</div>
+                        <div class="update-content">
+                            <p>{{ update.detail }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <p>ยังไม่มีการอัปเดตความคืบหน้า</p>
+                </div>
+                {% endif %}
+            </section>
+        </div>
+
+        <div class="sidebar-column">
+            <section class="politician-card">
+                <h3>ผู้ให้คำสัญญา</h3>
+                <div class="politician-info">
+                    <div class="avatar-placeholder">
+                        {{ promise.politician.name[0] }}
+                    </div>
+                    <div>
+                        <h4><a href="/politicians/{{ promise.politician.id }}">{{ promise.politician.name }}</a></h4>
+                        <p class="party">{{ promise.politician.party }}</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="campaign-card">
+                <h3>ข้อมูลการหาเสียง</h3>
+                <ul>
+                    <li><strong>ปีการเลือกตั้ง:</strong> {{ promise.campaign.year }}</li>
+                    <li><strong>เขต:</strong> {{ promise.campaign.district }}</li>
+                    <li><strong>รหัสคำสัญญา:</strong> {{ promise.id }}</li>
+                </ul>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock %}
