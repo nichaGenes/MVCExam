@@ -21,7 +21,7 @@ def init_data():
 
         print("Initializing data...")
 
-        #1. Users
+        # 1. Users
         user1 = User(username="admin", password="admin123", role=UserRole.ADMIN)
         user2 = User(username="user1", password="user123", role=UserRole.USER)
         session.add(user1)

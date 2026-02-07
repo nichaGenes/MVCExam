@@ -6,25 +6,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}ระบบติดตามคำสัญญา{% endblock %}</title>
     <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="ระบบติดตามคำสัญญาของนักการเมืองอย่างโปร่งใส - Promise Tracker">
+    <meta name="theme-color" content="#1a5490">
 </head>
 
 <body>
     <nav class="navbar">
-        <a href="/" class="nav-brand">🏛️ Promise Tracker</a>
-        <div class="nav-links">
-            <a href="/promises">คำสัญญาทั้งหมด</a>
-            {% if request.session.get("user_id") %}
-            <span>👤 {{ request.session.get("username") }} ({{ request.session.get("role") }})</span>
-            <a href="/logout">ออกจากระบบ</a>
-            {% else %}
-            <a href="/login">เข้าสู่ระบบ</a>
-            {% endif %}
+        <div class="container">
+            <a href="/" class="nav-brand">
+                <span style="font-size: 1.5em;">🏛️</span>
+                <span>Promise Tracker</span>
+            </a>
+            <div class="nav-links">
+                <a href="/promises">📋 คำสัญญาทั้งหมด</a>
+                {% if request.session.get("user_id") %}
+                    <span style="padding: 0.4rem 1rem; background: rgba(255, 255, 255, 0.1); border-radius: 20px; font-weight: 600; backdrop-filter: blur(10px);">
+                        👤 {{ request.session.get("username") }}
+                        <span style="opacity: 0.7; margin-left: 0.25rem;">({{ request.session.get("role") }})</span>
+                    </span>
+                    <a href="/logout" style="color: var(--accent-light);">🚪 ออกจากระบบ</a>
+                {% else %}
+                    <a href="/login" style="padding: 0.5rem 1.25rem; background: linear-gradient(135deg, var(--accent), var(--accent-light)); border-radius: 8px; font-weight: 700;">
+                        🔐 เข้าสู่ระบบ
+                    </a>
+                {% endif %}
+            </div>
         </div>
     </nav>
 
     <main class="container">
         {% block content %}{% endblock %}
     </main>
+
+    <footer style="background: linear-gradient(135deg, var(--neutral-900), var(--neutral-700)); color: white; padding: 3rem 0; margin-top: 5rem; border-top: 4px solid var(--accent);">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-bottom: 2rem;">
+                <div>
+                    <h3 style="font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                        <span>🏛️</span> Promise Tracker
+                    </h3>
+                    <p style="color: var(--neutral-300); line-height: 1.7;">
+                        ระบบติดตามคำสัญญาของนักการเมืองอย่างโปร่งใสและเป็นธรรม 
+                        เพื่อความรับผิดชอบต่อสังคม
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 style="font-family: var(--font-display); font-weight: 700; margin-bottom: 1rem; color: white;">
+                        📌 เมนูหลัก
+                    </h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="/promises" style="color: var(--neutral-300); text-decoration: none; transition: color 0.2s;">
+                                → คำสัญญาทั้งหมด
+                            </a>
+                        </li>
+                        <li style="margin-bottom: 0.5rem;">
+                            <a href="/login" style="color: var(--neutral-300); text-decoration: none; transition: color 0.2s;">
+                                → เข้าสู่ระบบ
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 style="font-family: var(--font-display); font-weight: 700; margin-bottom: 1rem; color: white;">
+                        ℹ️ เกี่ยวกับ
+                    </h4>
+                    <p style="color: var(--neutral-300); line-height: 1.7; font-size: 0.95rem;">
+                        พัฒนาด้วยความตั้งใจเพื่อส่งเสริมความโปร่งใสทางการเมือง
+                        และสร้างความรับผิดชอบของผู้นำต่อประชาชน
+                    </p>
+                </div>
+            </div>
+            
+            <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 2rem; text-align: center;">
+                <p style="color: var(--neutral-400); font-size: 0.9rem;">
+                    © 2025 Promise Tracker. สงวนลิขสิทธิ์ | 
+                    <span style="color: var(--accent-light);">Made with ❤️ for Democracy</span>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Smooth Scroll Animation -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        footer a:hover {
+            color: var(--accent-light) !important;
+        }
+    </style>
 </body>
 
 </html>

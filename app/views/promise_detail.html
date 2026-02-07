@@ -5,23 +5,25 @@
 {% block content %}
 <div class="promise-detail-container">
     <div class="breadcrumb">
-        <a href="/promises">&larr; กลับไปหน้ารวมคำสัญญา</a>
+        <a href="/promises">← กลับไปหน้ารวมคำสัญญา</a>
     </div>
 
     <div class="promise-header-card status-{{ promise.status.name.lower() }}">
-        <div class="status-badge-large {{ promise.status.name.lower() }}">{{ promise.status.value }}</div>
+        <div class="status-badge-large status-{{ promise.status.name.lower() }}">
+            {{ promise.status.value }}
+        </div>
         <h1>{{ promise.description }}</h1>
-        <p class="announced-date">ประกาศเมื่อ: {{ promise.announced_date.strftime('%d/%m/%Y') }}</p>
+        <p class="announced-date">📅 ประกาศเมื่อ: {{ promise.announced_date.strftime('%d/%m/%Y') }}</p>
     </div>
 
     <div class="content-grid">
         <div class="main-column">
             <section class="updates-section">
                 <div class="section-header">
-                    <h2>ความคืบหน้า</h2>
+                    <h2>📊 ความคืบหน้า</h2>
                     {% if request.session.get("role") == "admin" and promise.status.value != "เงียบหาย" %}
                     <a href="/promises/{{ promise.id }}/update" class="btn-primary">
-                        📝 อัปเดตความคืบหน้า
+                        ✏️ อัปเดตความคืบหน้า
                     </a>
                     {% endif %}
                 </div>
@@ -29,8 +31,10 @@
                 {% if promise.updates %}
                 <div class="updates-timeline">
                     {% for update in promise.updates|sort(attribute='update_date', reverse=True) %}
-                    <div class="update-card">
-                        <div class="update-date">{{ update.update_date.strftime('%d/%m/%Y') }}</div>
+                    <div class="update-card" style="animation: fadeInLeft 0.5s ease-out {{ loop.index0 * 0.1 }}s both;">
+                        <div class="update-date">
+                            📅 {{ update.update_date.strftime('%d/%m/%Y') }}
+                        </div>
                         <div class="update-content">
                             <p>{{ update.detail }}</p>
                         </div>
@@ -39,7 +43,10 @@
                 </div>
                 {% else %}
                 <div class="empty-state">
-                    <p>ยังไม่มีการอัปเดตความคืบหน้า</p>
+                    <p style="font-size: 1.1rem;">💭 ยังไม่มีการอัปเดตความคืบหน้า</p>
+                    <p style="font-size: 0.95rem; margin-top: 0.5rem; color: var(--neutral-400);">
+                        รอติดตามการดำเนินการของคำสัญญานี้
+                    </p>
                 </div>
                 {% endif %}
             </section>
@@ -47,7 +54,7 @@
 
         <div class="sidebar-column">
             <section class="politician-card">
-                <h3>ผู้ให้คำสัญญา</h3>
+                <h3>👤 ผู้ให้คำสัญญา</h3>
                 <div class="politician-info">
                     <div class="avatar-placeholder">
                         {{ promise.politician.name[0] }}
@@ -60,14 +67,41 @@
             </section>
 
             <section class="campaign-card">
-                <h3>ข้อมูลการหาเสียง</h3>
+                <h3>🗳️ ข้อมูลการหาเสียง</h3>
                 <ul>
                     <li><strong>ปีการเลือกตั้ง:</strong> {{ promise.campaign.year }}</li>
                     <li><strong>เขต:</strong> {{ promise.campaign.district }}</li>
-                    <li><strong>รหัสคำสัญญา:</strong> {{ promise.id }}</li>
+                    <li><strong>รหัสคำสัญญา:</strong> #{{ promise.id }}</li>
+                </ul>
+            </section>
+
+            <section class="campaign-card">
+                <h3>📈 สถิติ</h3>
+                <ul>
+                    <li><strong>จำนวนการอัปเดต:</strong> {{ promise.updates|length }} ครั้ง</li>
+                    <li><strong>อัปเดตล่าสุด:</strong> 
+                        {% if promise.updates %}
+                            {{ promise.updates|sort(attribute='update_date', reverse=True)|first|attr('update_date')|strftime('%d/%m/%Y') }}
+                        {% else %}
+                            ยังไม่มี
+                        {% endif %}
+                    </li>
                 </ul>
             </section>
         </div>
     </div>
 </div>
+
+<style>
+    @keyframes fadeInLeft {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+</style>
 {% endblock %}

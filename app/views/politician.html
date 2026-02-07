@@ -9,28 +9,69 @@
             {{ politician.name[0] }}
         </div>
         <h1>{{ politician.name }}</h1>
-        <p class="party-large">{{ politician.party }}</p>
+        <p class="party-large">🎗️ {{ politician.party }}</p>
+        <p style="margin-top: 1rem; color: var(--neutral-500); font-weight: 600; position: relative; z-index: 1;">
+            📋 คำสัญญาทั้งหมด: {{ promises|length }} รายการ
+        </p>
     </div>
+</div>
+
+{% if promises %}
+<div style="text-align: center; margin-bottom: 2rem;">
+    <h2 style="font-family: var(--font-display); font-size: 2rem; font-weight: 800; color: var(--neutral-900);">
+        คำสัญญาของ {{ politician.name }}
+    </h2>
+    <p style="color: var(--neutral-500); margin-top: 0.5rem; font-size: 1.1rem;">
+        ติดตามความคืบหน้าและความรับผิดชอบ
+    </p>
 </div>
 
 <div class="promises-grid">
     {% for promise in promises %}
-    <div class="promise-card status-{{ promise.status.name.lower() }}">
+    <div class="promise-card status-{{ promise.status.name.lower() }}" style="animation-delay: {{ loop.index0 * 0.05 }}s;">
         <div class="promise-header">
-            <span class="status-badge {{ promise.status.name.lower() }}">{{ promise.status.value }}</span>
-            <span class="date">{{ promise.announced_date.strftime('%d/%m/%Y') }}</span>
+            <span class="status-badge status-{{ promise.status.name.lower() }}">
+                {{ promise.status.value }}
+            </span>
+            <span class="date">📅 {{ promise.announced_date.strftime('%d/%m/%Y') }}</span>
         </div>
 
-        <h3><a href="/promises/{{ promise.id }}">{{ promise.description }}</a></h3>
+        <h3>
+            <a href="/promises/{{ promise.id }}">{{ promise.description }}</a>
+        </h3>
 
         <div class="campaign-info">
-            <small>หาเสียงปี {{ promise.campaign.year }} ({{ promise.campaign.district }})</small>
+            <small>🗳️ หาเสียงปี {{ promise.campaign.year }} ({{ promise.campaign.district }})</small>
         </div>
 
+        {% if promise.updates %}
+        <div style="margin-top: 1rem; padding: 0.75rem; background: var(--neutral-100); border-radius: 8px; font-size: 0.9rem;">
+            <strong style="color: var(--primary);">📊 มีการอัปเดต:</strong> 
+            <span style="color: var(--neutral-700);">{{ promise.updates|length }} ครั้ง</span>
+            <br>
+            <small style="color: var(--neutral-500);">ล่าสุด: {{ promise.updates|sort(attribute='update_date', reverse=True)|first|attr('update_date')|strftime('%d/%m/%Y') }}</small>
+        </div>
+        {% else %}
+        <div style="margin-top: 1rem; padding: 0.75rem; background: var(--neutral-100); border-radius: 8px; font-size: 0.9rem; color: var(--neutral-500);">
+            <em>ยังไม่มีการอัปเดตความคืบหน้า</em>
+        </div>
+        {% endif %}
+
         <div class="card-footer">
-            <a href="/promises/{{ promise.id }}" class="btn-detail">ดูรายละเอียด</a>
+            <a href="/promises/{{ promise.id }}" class="btn-detail">ดูรายละเอียด →</a>
         </div>
     </div>
     {% endfor %}
 </div>
+{% else %}
+<div class="empty-state" style="padding: 4rem; text-align: center; background: white; border-radius: 16px; box-shadow: var(--shadow-md);">
+    <p style="font-size: 1.3rem; color: var(--neutral-400);">ไม่พบคำสัญญาของนักการเมืองท่านนี้</p>
+</div>
+{% endif %}
+
+<style>
+    .promises-grid > * {
+        animation: fadeInUp 0.6s ease-out both;
+    }
+</style>
 {% endblock %}

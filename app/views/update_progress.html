@@ -6,36 +6,79 @@
 <div class="container">
     <div class="update-form-container">
         <div class="breadcrumb">
-            <a href="/promises/{{ promise.id }}">&larr; กลับไปหน้ารายละเอียด</a>
+            <a href="/promises/{{ promise.id }}">← กลับไปหน้ารายละเอียด</a>
         </div>
 
-        <h1>อัปเดตความคืบหน้า</h1>
+        <h1>✏️ อัปเดตความคืบหน้า</h1>
+        <p style="color: var(--neutral-500); margin-bottom: 2rem; font-size: 1.1rem;">
+            เพิ่มข้อมูลความคืบหน้าของคำสัญญานี้เพื่อความโปร่งใส
+        </p>
 
         <div class="promise-summary">
             <h3>{{ promise.description }}</h3>
-            <p><strong>นักการเมือง:</strong> {{ promise.politician.name }} ({{ promise.politician.party }})</p>
-            <p><strong>สถานะปัจจุบัน:</strong> <span class="status-badge {{ promise.status.name.lower() }}">{{
-                    promise.status.value }}</span></p>
+            <div style="margin-top: 1rem; display: grid; gap: 0.75rem;">
+                <p>
+                    <strong style="color: var(--neutral-700);">👤 นักการเมือง:</strong> 
+                    <span style="color: var(--primary); font-weight: 600;">{{ promise.politician.name }}</span> 
+                    ({{ promise.politician.party }})
+                </p>
+                <p>
+                    <strong style="color: var(--neutral-700);">📊 สถานะปัจจุบัน:</strong> 
+                    <span class="status-badge status-{{ promise.status.name.lower() }}">{{ promise.status.value }}</span>
+                </p>
+                <p>
+                    <strong style="color: var(--neutral-700);">🗳️ การหาเสียง:</strong> 
+                    ปี {{ promise.campaign.year }} ({{ promise.campaign.district }})
+                </p>
+            </div>
         </div>
 
         {% if error %}
         <div class="error-message">
-            {{ error }}
+            ⚠️ {{ error }}
         </div>
         {% endif %}
 
         <form action="/promises/{{ promise.id }}/update" method="POST">
             <div class="form-group">
-                <label for="detail">รายละเอียดความคืบหน้า:</label>
-                <textarea id="detail" name="detail" rows="5" class="form-control"
-                    placeholder="กรอกรายละเอียดความคืบหน้า..." required></textarea>
+                <label for="detail">
+                    📝 รายละเอียดความคืบหน้า
+                    <span style="color: var(--accent); margin-left: 0.25rem;">*</span>
+                </label>
+                <textarea 
+                    id="detail" 
+                    name="detail" 
+                    rows="8" 
+                    class="form-control"
+                    placeholder="กรุณากรอกรายละเอียดความคืบหน้าของคำสัญญา เช่น การดำเนินการที่ผ่านมา ผลลัพธ์ที่เกิดขึ้น หรือแผนงานในอนาคต..." 
+                    required
+                ></textarea>
+                <small style="color: var(--neutral-500); margin-top: 0.5rem; display: block;">
+                    💡 โปรดระบุข้อมูลที่ชัดเจนและตรวจสอบได้เพื่อความน่าเชื่อถือ
+                </small>
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn-primary">บันทึกความคืบหน้า</button>
-                <a href="/promises/{{ promise.id }}" class="btn-cancel">ยกเลิก</a>
+                <button type="submit" class="btn-primary">
+                    💾 บันทึกความคืบหน้า
+                </button>
+                <a href="/promises/{{ promise.id }}" class="btn-cancel">
+                    ยกเลิก
+                </a>
             </div>
         </form>
+
+        <div style="margin-top: 2rem; padding: 1.5rem; background: linear-gradient(135deg, var(--neutral-100), white); border-radius: 12px; border-left: 4px solid var(--primary);">
+            <h4 style="font-family: var(--font-display); font-weight: 700; color: var(--neutral-900); margin-bottom: 0.75rem;">
+                💡 คำแนะนำในการอัปเดต
+            </h4>
+            <ul style="color: var(--neutral-700); line-height: 1.8; padding-left: 1.5rem;">
+                <li>ระบุวันที่และเวลาของเหตุการณ์ที่เกิดขึ้น</li>
+                <li>อธิบายรายละเอียดการดำเนินการอย่างชัดเจน</li>
+                <li>แนบแหล่งข้อมูลอ้างอิงหากมี</li>
+                <li>ใช้ภาษาที่เป็นกลางและเป็นธรรม</li>
+            </ul>
+        </div>
     </div>
 </div>
 {% endblock %}

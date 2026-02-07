@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
 from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
+from templating import templates
 from sqlmodel import Session, select
 from pathlib import Path
 
@@ -8,7 +8,6 @@ from database import get_session
 from models import Politician, Promise
 
 router = APIRouter(tags=["politicians"])
-templates = Jinja2Templates(directory=Path(__file__).parent.parent / "views")
 
 
 @router.get("/politicians/{id}", response_class=HTMLResponse)

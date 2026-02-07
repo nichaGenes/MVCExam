@@ -3,20 +3,34 @@
 {% block title %}เข้าสู่ระบบ — Promise Tracker{% endblock %}
 
 {% block content %}
-<div class="login-container">
-    <h1>เข้าสู่ระบบ</h1>
+<div class="login-container" style="margin-top: 3rem;">
+    <div style="text-align: center; margin-bottom: 2rem;">
+        <div style="width: 80px; height: 80px; margin: 0 auto 1rem; background: linear-gradient(135deg, var(--primary-dark), var(--primary-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; box-shadow: var(--shadow-lg);">
+            🔐
+        </div>
+        <h1 style="margin-bottom: 0.5rem;">เข้าสู่ระบบ</h1>
+        <p style="color: var(--neutral-500); font-size: 1.05rem;">
+            เข้าสู่ระบบเพื่อจัดการข้อมูลคำสัญญา
+        </p>
+    </div>
 
     {% if error %}
-        <div class="alert alert-error">{{ error }}</div>
+        <div class="alert-error" style="margin-bottom: 1.5rem;">
+            ⚠️ {{ error }}
+        </div>
     {% endif %}
 
     <form method="POST" action="/login">
         <div class="form-group">
-            <label for="username">ชื่อผู้ใช้</label>
+            <label for="username">
+                👤 ชื่อผู้ใช้
+                <span style="color: var(--accent); margin-left: 0.25rem;">*</span>
+            </label>
             <input
                 type="text"
                 id="username"
                 name="username"
+                class="form-control"
                 placeholder="กรอกชื่อผู้ใช้"
                 required
                 autofocus
@@ -24,25 +38,67 @@
         </div>
 
         <div class="form-group">
-            <label for="password">รหัสผ่าน</label>
+            <label for="password">
+                🔒 รหัสผ่าน
+                <span style="color: var(--accent); margin-left: 0.25rem;">*</span>
+            </label>
             <input
                 type="password"
                 id="password"
                 name="password"
+                class="form-control"
                 placeholder="กรอกรหัสผ่าน"
                 required
             >
         </div>
 
-        <button type="submit" class="btn btn-primary">เข้าสู่ระบบ</button>
+        <button type="submit" class="btn-primary" style="width: 100%; justify-content: center; font-size: 1.1rem;">
+            🚀 เข้าสู่ระบบ
+        </button>
     </form>
 
-    <div class="login-hint">
-        <p>บัญชีทดสอบ:</p>
-        <table>
-            <tr><td><strong>admin</strong></td><td>admin123</td><td>(ผู้ดูแลระบบ)</td></tr>
-            <tr><td><strong>user1</strong></td><td>user123</td><td>(ผู้ใช้ทั่วไป)</td></tr>
-        </table>
+    <div class="login-hint" style="margin-top: 2rem;">
+        <p style="display: flex; align-items: center; gap: 0.5rem;">
+            <span style="font-size: 1.2rem;">💡</span>
+            <strong>บัญชีทดสอบสำหรับเข้าใช้งาน:</strong>
+        </p>
+        <div style="margin-top: 1rem; background: white; border-radius: 8px; overflow: hidden; border: 2px solid var(--neutral-200);">
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: white;">
+                        <th style="padding: 0.75rem; text-align: left; font-weight: 700;">ชื่อผู้ใช้</th>
+                        <th style="padding: 0.75rem; text-align: left; font-weight: 700;">รหัสผ่าน</th>
+                        <th style="padding: 0.75rem; text-align: left; font-weight: 700;">สิทธิ์</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="background: var(--neutral-100);">
+                        <td style="padding: 0.75rem; font-weight: 700; color: var(--primary);">admin</td>
+                        <td style="padding: 0.75rem; font-family: monospace; color: var(--neutral-700);">admin123</td>
+                        <td style="padding: 0.75rem;">
+                            <span style="background: linear-gradient(135deg, var(--accent), var(--accent-light)); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem; font-weight: 700;">👑 ผู้ดูแลระบบ</span>
+                        </td>
+                    </tr>
+                    <tr style="background: white;">
+                        <td style="padding: 0.75rem; font-weight: 700; color: var(--primary);">user1</td>
+                        <td style="padding: 0.75rem; font-family: monospace; color: var(--neutral-700);">user123</td>
+                        <td style="padding: 0.75rem;">
+                            <span style="background: linear-gradient(135deg, var(--neutral-400), var(--neutral-500)); color: white; padding: 0.25rem 0.75rem; border-radius: 12px; font-size: 0.85rem; font-weight: 700;">👤 ผู้ใช้ทั่วไป</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--neutral-500); line-height: 1.6;">
+            <strong>หมายเหตุ:</strong> บัญชีผู้ดูแลระบบสามารถอัปเดตความคืบหน้าของคำสัญญาได้ 
+            ส่วนบัญชีผู้ใช้ทั่วไปสามารถดูข้อมูลเท่านั้น
+        </p>
     </div>
 </div>
+
+<style>
+    .login-container {
+        animation: fadeInUp 0.6s ease-out;
+    }
+</style>
 {% endblock %}

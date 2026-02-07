@@ -1,14 +1,13 @@
 from pathlib import Path
 from fastapi import APIRouter, Request, Depends, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
-from fastapi.templating import Jinja2Templates
+from templating import templates
 from sqlmodel import Session, select
 
 from database import get_session
 from models import User
 
 router = APIRouter(tags=["auth"])
-templates = Jinja2Templates(directory=Path(__file__).parent.parent / "views")
 
 
 # ============================================

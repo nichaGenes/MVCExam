@@ -13,7 +13,3 @@ __all__ = [
     "User",
     "UserRole",
 ]
-
-# Resolve forward references
-Promise.model_rebuild()
-Campaign.model_rebuild()

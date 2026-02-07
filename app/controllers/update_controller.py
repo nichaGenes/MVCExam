@@ -1,7 +1,7 @@
 from datetime import date
 from fastapi import APIRouter, Depends, HTTPException, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
-from fastapi.templating import Jinja2Templates
+from templating import templates
 from sqlmodel import Session
 from pathlib import Path
 
@@ -10,7 +10,6 @@ from models import Promise, PromiseUpdate, PromiseStatus, User
 from controllers.auth_controller import require_admin
 
 router = APIRouter(tags=["updates"])
-templates = Jinja2Templates(directory=Path(__file__).parent.parent / "views")
 
 
 @router.get("/promises/{id}/update", response_class=HTMLResponse)
